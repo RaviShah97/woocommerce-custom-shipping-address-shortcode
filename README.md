@@ -32,3 +32,18 @@ This shortcode dynamically displays shipping information based on the order, esp
 - After installation, use the shortcode `[shipping_address]` on any page or post to display the shipping address.
 - The shortcode will adapt based on the products in the order and the user's status.
 
+# Shortcode Images for Shipping Address or Digital Product
+
+## 1) Shipping Address/Digital Product
+
+![Digital Product](https://vistavibes.in/wp-content/uploads/2023/12/Shipping-Address-1.png)
+
+## 2) Shipping Address/Digital Product with Shortcode
+
+![Digital Product](https://vistavibes.in/wp-content/uploads/2023/12/Shipping-Address-2.png)
+
+## 3) Shipping Address/Digital Product for Guest Users
+
+![Digital Product](https://vistavibes.in/wp-content/uploads/2023/12/Shipping-Address-Guest.png)
+
+
