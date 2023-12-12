@@ -1,0 +1,66 @@
+function shipping_address_shortcode() {
+    // Check if the user is logged in
+    $is_logged_in = is_user_logged_in();
+
+    // Add a class based on the user's login status
+    $user_class = $is_logged_in ? 'logged-in-user' : 'guest-user';
+
+    // Get the current user ID
+    $customer_id = get_current_user_id();
+
+    // Get the last order placed by the user
+    $order = wc_get_customer_last_order($customer_id);
+
+    // Check if the order exists
+    if ($order) {
+        // Get the order items
+        $items = $order->get_items();
+
+        // Initialize a flag for virtual/downloadable products
+        $has_virtual_product = false;
+
+        // Loop through the items
+        foreach ($items as $item) {
+            // Get the product ID
+            $product_id = $item->get_product_id();
+            // Get the product object
+            $product = wc_get_product($product_id);
+
+            // Check if the product is virtual and downloadable
+            if ($product->is_virtual() && $product->is_downloadable()) {
+                $has_virtual_product = true;
+                break; // Exit the loop if a virtual/downloadable product is found
+            }
+        }
+
+        // Determine the output based on the virtual/downloadable product flag
+        if ($has_virtual_product) {
+            // Create the HTML output for the digital product message with hover animation classes
+            $output = '<div class="digital-product-message ' . $user_class . ' zoom-on-hover" style="background: linear-gradient(to right, #FFBA58, #E73070); color: #fff; padding: 15px;">';
+            $output .= '<h4 style="color: #fff;">Digital Product</h4>';
+            $output .= '<p style="margin: 0;">As this is a digital product, there\'s no physical shipping required. Once your purchase is complete, You will receive a confirmation email with download instructions. Check your spam folder incase if you have not received email in your inbox. Thank you for choosing VistaVibes!</p>';
+            $output .= '</div>';
+        } else {
+            // If no virtual/downloadable product, display a default message with hover animation classes
+            $output = '<div class="shipping-address ' . $user_class . ' zoom-on-hover" style="background: linear-gradient(to right, #FFBA58, #E73070); color: #fff; padding: 15px;">';
+            $output .= '<h4 style="color: #fff;">Shipping Address</h4>';
+            $output .= '<p style="margin: 0;">Default shipping address for logged-in users.</p>';
+            $output .= '</div>';
+        }
+
+        // Return the HTML output as the shortcode output
+        return $output;
+    }
+
+    // If the user is not logged in or no order found, display a default message with hover animation classes
+    $output = '<div class="shipping-address ' . $user_class . ' zoom-on-hover" style="background: linear-gradient(to right, #FFBA58, #E73070); color: #fff; padding: 15px;">';
+    $output .= '<h4 style="color: #fff;">Shipping Address (Guest)</h4>';
+    $output .= '<p style="margin: 0;">As this is a digital product, there\'s no physical shipping required. Once your purchase is complete, You will receive a confirmation email with download instructions. Check your spam folder incase if you have not received email in your inbox. Thank you for choosing VistaVibes!</p>';
+    $output .= '</div>';
+
+    // Return the HTML output as the shortcode output
+    return $output;
+}
+
+// Register the shortcode with WordPress
+add_shortcode('shipping_address', 'shipping_address_shortcode');
